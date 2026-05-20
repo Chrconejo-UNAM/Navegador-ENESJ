@@ -213,8 +213,8 @@ st.markdown('<div class="contenido-principal">', unsafe_allow_html=True)
 @st.cache_resource
 def generar_grafo():
     G = nx.Graph()
-    rutas_ps = [('Salones de usos múltiples', 'Escaleras 1 sótano', 11), ('Escaleras 1 sótano', 'Baños 1 sótano', 5), ('Escaleras 1 sótano', 'Cafetería', 17), ('Cafetería', 'Juegos', 43), ('Juegos', 'Explanada', 3), ('Explanada', 'Escaleras 2 sótano', 12), ('Juegos', 'Tics', 5), ('Juegos', 'Deportes', 8), ('Tics', 'Intendencia de obras', 15), ('Intendencia de obras', 'Túnel de viento', 35), ('Túnel de viento', 'UIOYP', 5), ('UIOYP', 'Escaleras 3 sótano', 5), ('Escaleras 3 sótano', 'Baños 2 sótano', 5)]
-    rutas_pb = [('Auditorio', 'Escaleras 1 planta baja', 29), ('Escaleras 1 planta baja', 'Baños 1 planta baja', 5), ('Escaleras 1 planta baja', 'Entrada', 16), ('Entrada', 'Recepción', 23), ('Recepción','Baños 2 planta baja', 17), ('Baños 2 planta baja','Escaleras 2 planta baja', 5), ('Escaleras 2 planta baja','Vitrinas', 5), ('Vitrinas','VI-PB01', 43), ('Escaleras 2 sótano', 'Microondas', 30.5), ('VI-PB01','Nutrición', 13), ('VI-PB01','VI-PB02', 8), ('VI-PB02','Médico', 13), ('VI-PB02', 'Lactancia', 13), ('VI-PB02', 'VI-PB03', 8), ('VI-PB03', 'Psicología', 13), ('VI-PB03', 'VI-PB04', 8), ('VI-PB04', 'CID planta baja', 13), ('VI-PB04', 'Escaleras 3 planta baja', 11), ('Escaleras 3 planta baja', 'Baños 3 planta baja', 5)]
+    rutas_ps = [('Salones de usos múltiples', 'Escaleras 1 sótano', 11), ('Escaleras 1 sótano', 'Baños 1 sótano', 5), ('Escaleras 1 sótano', 'Cafetería', 17), ('Cafetería', 'Juegos', 43), ('Juegos', 'Explanada', 3), ('Explanada', 'Escaleras 2 sótano', 12), ('Juegos', 'TIC', 5), ('Juegos', 'Deportes', 8), ('TIC', 'Intendencia de obras', 15), ('Intendencia de obras', 'Túnel de viento', 35), ('Túnel de viento', 'UIOYP', 5), ('UIOYP', 'Escaleras 3 sótano', 5), ('Escaleras 3 sótano', 'Baños 2 sótano', 5)]
+    rutas_pb = [('Auditorio', 'Escaleras 1 planta baja', 29), ('Escaleras 1 planta baja', 'Baños 1 planta baja', 5), ('Escaleras 1 planta baja', 'Entrada', 16), ('Entrada', 'Recepción', 23), ('Recepción','Baños 2 planta baja', 17), ('Baños 2 planta baja','Escaleras 2 planta baja', 5), ('Escaleras 2 planta baja','Vitrinas', 5), ('Vitrinas','VI-PB01', 43), ('Escaleras 2 sótano', 'Microondas', 30.5), ('VI-PB01','Nutrición', 13), ('VI-PB01','VI-PB02', 8), ('VI-PB02','Médico', 13), ('VI-PB02', 'Lactancia', 13), ('VI-PB02', 'VI-PB03', 8), ('VI-PB03', 'Psicopedagogía', 13), ('VI-PB03', 'VI-PB04', 8), ('VI-PB04', 'CID planta baja', 13), ('VI-PB04', 'Escaleras 3 planta baja', 11), ('Escaleras 3 planta baja', 'Baños 3 planta baja', 5)]
     rutas_p1 = [('Escaleras 1 piso 1', 'Baños 1 piso 1', 5), ('Escaleras 1 piso 1', 'IV-101', 9), ('IV-101', 'IV-102', 16), ('IV-102', 'IV-103', 17), ('IV-103', 'Escaleras 2 piso 1', 15), ('Escaleras 2 piso 1', 'Baños 2 piso 1', 5), ('Escaleras 2 piso 1', 'V-101', 10), ('V-101', 'V-102', 18), ('V-102', 'Ajedrez', 31.5), ('CID piso 1', 'Ajedrez', 14), ('Ajedrez', 'Escaleras 3 piso 1', 13), ('Escaleras 3 piso 1', 'Baños 3 piso 1', 5)]
     rutas_p2 = [('III-201', 'III-202', 8), ('III-202', 'Secretaría administrativa', 8), ('Secretaría administrativa', 'Escaleras 1 piso 2', 11), ('Escaleras 1 piso 2', 'Baños 1 piso 2', 5), ('Escaleras 1 piso 2', 'Secretaría académica', 15.5), ('Secretaría académica', 'Secretaría general', 6.5), ('Secretaría general', 'Sala de juntas', 20), ('Sala de juntas', 'Dirección', 7.5), ('Dirección', 'Escaleras 2 piso 2', 8.5), ('Escaleras 2 piso 2', 'Baños 2 piso 2', 5), ('Escaleras 2 piso 2', 'Secretaría de educación y vinculación', 16), ('Secretaría de educación y vinculación', 'Servicios escolares', 17.5), ('Servicios escolares', 'VI-201', 16), ('VI-201', 'VI-202', 8), ('VI-202', 'VI-203', 8), ('VI-203', 'VI-204', 8), ('VI-204', 'Escaleras 3 piso 2', 5), ('Escaleras 3 piso 2', 'Baños 3 piso 2', 5)]
     rutas_p3 = [('III-301', 'III-302', 8), ('III-302', 'III-303', 8), ('III-303', 'III-304', 8), ('III-304', 'Escaleras 1 piso 3', 5), ('Escaleras 1 piso 3', 'Baños 1 piso 3', 5), ('Escaleras 1 piso 3', 'IV-301', 5), ('IV-301', 'IV-302', 8), ('IV-302', 'IV-303', 8), ('IV-303', 'IV-304', 8), ('IV-304', 'IV-305', 8), ('IV-305', 'Escaleras 2 piso 3', 5), ('Escaleras 2 piso 3', 'Baños 2 piso 3', 5), ('Escaleras 2 piso 3', 'V-301', 5), ('V-301', 'V-302', 8), ('V-302', 'V-303', 8), ('V-303', 'V-304', 8), ('V-304', 'VI-301', 8), ('VI-301', 'VI-302', 8), ('VI-302', 'VI-303', 8), ('VI-303', 'CID piso 3', 14), ('VI-303', 'VI-304', 8), ('VI-304', 'Escaleras 3 piso 3', 5), ('Escaleras 3 piso 3', 'Baños 3 piso 3', 5)]
@@ -232,7 +232,7 @@ pos = {
     'Escaleras 3 sótano': (50, 0.75), 'Escaleras 3 planta baja': (50, 1.25),
     'Salones de usos múltiples': (2, -0.25),
     'Cafetería': (21, 0.25), 'Juegos': (25.5, 0.375), 'Deportes': (30, 0.375), 'Explanada': (27, 0),
-    'Tics': (24.25, 0.75), 'Intendencia de obras': (31, 0.75), 
+    'TIC': (24.25, 0.75), 'Intendencia de obras': (31, 0.75), 
     'Túnel de viento': (43, 0.75), 'UIOYP': (48, 0.5),
     'Baños 1 sótano': (9, 0),
     'Baños 2 sótano': (51, 0.875),
@@ -253,7 +253,7 @@ pos = {
     'Nutrición': (38, 1),
     'Médico': (40, 1),
     'Lactancia': (42, 1),
-    'Psicología': (44, 1),
+    'Psicopedagogía': (44, 1),
     'CID planta baja': (46, 1),
 
     # Mapeo Piso 1 
@@ -353,9 +353,14 @@ with st.expander("¿Cómo funciona esta tecnología?"):
 
 st.markdown("<br>", unsafe_allow_html=True)
 
+# Separadores 
+sep_aulas = "🏢 --- ÁREAS Y AULAS ---"
+sep_docentes = "👨‍🏫 --- DOCENTES ---"
+
 # Listas pre-calculadas 
 nodos_ordenados = sorted(list(G.nodes()))
-opciones_destino = nodos_ordenados + sorted(list(directorio_profes.keys()))
+profes_ordenados = sorted(list(directorio_profes.keys()))
+opciones_destino = opciones_destino = [sep_aulas] + nodos_ordenados + [sep_docentes] + profes_ordenados
 
 # Cajas a ancho completo
 origen = st.selectbox("📍 Estás en:", nodos_ordenados)
@@ -369,7 +374,10 @@ boton_trazar = st.button("Trazar Ruta", use_container_width=True)
 # DIBUJO DEL GRAFO CON MATPLOTLIB (OPTIMIZADO PARA RUTAS ESPECÍFICAS)
 if boton_trazar:
     destino_real = directorio_profes.get(seleccion, seleccion)
-
+    if seleccion == sep_aulas or seleccion == sep_docentes:
+        st.warning("⚠️ Por favor, selecciona un destino válido debajo de los separadores.")
+    else:
+        destino_real = directorio_profes.get(seleccion, seleccion)
     try:
         ruta = nx.dijkstra_path(G, source=origen, target=destino_real, weight='weight')
         distancia = nx.dijkstra_path_length(G, source=origen, target=destino_real, weight='weight')
