@@ -85,11 +85,22 @@ st.markdown("""
     }
     
     /* Diseño del título */
+    /* Título para computadoras */
     .header-titulo {
         text-align: center;
         font-weight: bold;
-        font-size: 50px;
+        font-size: 45px;
         line-height: 1.2;
+    }
+
+    /* Responsiva para celulares */
+    @media (max-width: 768px) {
+        .header-titulo {
+            font-size: 20px !important;
+        }
+        .header-institucional {
+            padding: 10px 5px !important;
+        }
     }
 
     /* Estilo del botón principal */
