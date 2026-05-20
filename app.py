@@ -93,14 +93,25 @@ st.markdown("""
         line-height: 1.2;
     }
 
+    .logo-header {
+        max-height: 100px;
+        max-width: 100%;
+        object-fit: contain;
+        cursor: pointer;
+    }
+    
     /* Responsiva para celulares */
     @media (max-width: 768px) {
         .header-titulo {
             font-size: 20px !important;
         }
+        .logo-header {
+            max-height: 60px !important;
+        }
         .header-institucional {
             padding: 10px 5px !important;
         }
+        
     }
 
     /* Estilo del botón principal */
@@ -178,9 +189,9 @@ img_enes = cargar_imagen_b64("logo_enes_dorado.png")
 # Construimos el HTML del encabezado CON ENLACES
 html_header = f"""
 <div class="header-institucional">
-    <div style="width: 25%;">
+    <div style="width: 25%; text-align: left;">
         <a href="https://www.unam.mx/" target="_blank">
-            <img src="data:image/png;base64,{img_unam}" style="max-height: 100px; max-width: 100%; object-fit: contain; cursor: pointer;">
+            <img class="logo-header" src="data:image/png;base64,{img_unam}">
         </a>
     </div>
     <div class="header-titulo" style="width: 50%;">
@@ -188,7 +199,7 @@ html_header = f"""
     </div>
     <div style="width: 25%; text-align: right;">
         <a href="https://www.enesjuriquilla.unam.mx/" target="_blank">
-            <img src="data:image/png;base64,{img_enes}" style="max-height: 100px; max-width: 100%; object-fit: contain; cursor: pointer;">
+            <img class="logo-header" src="data:image/png;base64,{img_enes}">
         </a>
     </div>
 </div>
