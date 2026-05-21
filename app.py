@@ -171,6 +171,21 @@ st.markdown("""
         margin-right: auto !important; /* Centrado automático */
         margin-bottom: 30px !important; /* Espacio extra antes del footer */
     }
+            
+    /* Caja temporal de carga */
+    .caja-carga-gris {
+        background-color: #E2E3E5; /* Gris claro y elegante */
+        border-radius: 15px;
+        width: 90%;
+        margin: 0 auto 15px auto;
+        padding: 15px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.05);
+        text-align: center;
+        color: var(--unam-blue); /* Texto en azul para que resalte */
+        font-weight: bold;
+        font-size: 16px;
+    }
+    
     </style>
     """, unsafe_allow_html=True)
 
@@ -371,87 +386,93 @@ st.markdown("<br>", unsafe_allow_html=True)
 # Botón a ancho completo
 boton_trazar = st.button("Trazar Ruta", use_container_width=True)
 
-# DIBUJO DEL GRAFO CON MATPLOTLIB (OPTIMIZADO PARA RUTAS ESPECÍFICAS)
+# DIBUJO DEL GRAFO CON MATPLOTLIB
 if boton_trazar:
-    destino_real = directorio_profes.get(seleccion, seleccion)
+    # Validamos que no elijan los separadores
     if seleccion == sep_aulas or seleccion == sep_docentes:
         st.warning("⚠️ Por favor, selecciona un destino válido debajo de los separadores.")
+    
     else:
         destino_real = directorio_profes.get(seleccion, seleccion)
-    try:
-        ruta = nx.dijkstra_path(G, source=origen, target=destino_real, weight='weight')
-        distancia = nx.dijkstra_path_length(G, source=origen, target=destino_real, weight='weight')
-
-        st.success(f"✅ ¡Ruta Encontrada! Distancia: {distancia} metros")
-        st.info(f"🧭 **Camino a seguir:** {' ➔ '.join(ruta)}")
-
-        fig, ax = plt.subplots(figsize=(16, 9)) 
-        fig.subplots_adjust(left=0, right=1, top=1, bottom=0, wspace=0, hspace=0)
-        ax.margins(0, 0)
         
-        fig.patch.set_facecolor('none')
-        ax.set_facecolor('none')
-        
-        izq, der, abajo, arriba = -8, 54, -1.5, 6
-        
+        caja_carga = st.empty() 
+        caja_carga.markdown('<div class="caja-carga-gris">⏳ Dibujando la mejor ruta...</div>', unsafe_allow_html=True)
+            
         try:
-            # Carga la imagen de fondo optimizada para el mapa guía
-            img = cargar_fondo_mapa() 
-            if img is not None:
-                ax.imshow(img, extent=[izq, der, abajo, arriba], aspect='auto', alpha=0.9)
-            else:
-                st.warning("No se pudo cargar la imagen de fondo.")
-        except Exception as e:
-            st.warning(f"Error al cargar imagen: {e}")
-        
-        # Dibujar solo las aristas de la ruta calculada
-        edges_ruta = list(zip(ruta, ruta[1:]))
-        nx.draw_networkx_edges(G, pos, edgelist=edges_ruta, edge_color='#D4A106', width=6, ax=ax)
-        
-        # Dibujar puntos blancos en los pasos intermedios de la ruta para que sea más fácil intuitivo
-        nodos_intermedios = ruta[1:-1]
-        if nodos_intermedios:
-            nx.draw_networkx_nodes(G, pos, nodelist=nodos_intermedios, node_color='white', node_size=120, edgecolors='#002B5C', linewidths=1.5, ax=ax)
-        
-        # Dibujar los círculos grandes para el Origen y el Destino final
-        nx.draw_networkx_nodes(G, pos, nodelist=[origen], node_color='#002B5C', node_size=600, edgecolors='white', linewidths=2, ax=ax)
-        nx.draw_networkx_nodes(G, pos, nodelist=[destino_real], node_color='#D4A106', node_size=600, edgecolors='white', linewidths=2, ax=ax)
+            ruta = nx.dijkstra_path(G, source=origen, target=destino_real, weight='weight')
+            distancia = nx.dijkstra_path_length(G, source=origen, target=destino_real, weight='weight')
 
-        # Letreros de inicio y destino
-        # Ajustamos la posición para que el texto flote un poquito abajo del círculo (-0.25 en el eje Y)
-        pos_labels = {
-            origen: (pos[origen][0], pos[origen][1] - 0.25),
-            destino_real: (pos[destino_real][0], pos[destino_real][1] - 0.25)
-        }
-        
-        # Validamos si el usuario eligió el mismo punto como inicio y destino
-        if origen == destino_real:
-            textos_nodos = {origen: f"📍🎯 ¡Ya estás aquí!: {origen}"}
-        else:
-            textos_nodos = {
-                origen: f"Inicio: {origen}",
-                destino_real: f"Destino: {seleccion}"
+            st.success(f"✅ ¡Ruta Encontrada! Distancia: {distancia} metros")
+            st.info(f"🧭 **Camino a seguir:** {' ➔ '.join(ruta)}")
+
+            fig, ax = plt.subplots(figsize=(16, 9)) 
+            fig.subplots_adjust(left=0, right=1, top=1, bottom=0, wspace=0, hspace=0)
+            ax.margins(0, 0)
+            
+            fig.patch.set_facecolor('none')
+            ax.set_facecolor('none')
+            
+            izq, der, abajo, arriba = -8, 54, -1.5, 6
+            
+            try:
+                img = cargar_fondo_mapa() 
+                if img is not None:
+                    ax.imshow(img, extent=[izq, der, abajo, arriba], aspect='auto', alpha=0.9)
+                else:
+                    st.warning("No se pudo cargar la imagen de fondo.")
+            except Exception as e:
+                st.warning(f"Error al cargar imagen: {e}")
+            
+            # Dibujar solo las aristas de la ruta calculada
+            edges_ruta = list(zip(ruta, ruta[1:]))
+            nx.draw_networkx_edges(G, pos, edgelist=edges_ruta, edge_color='#D4A106', width=6, ax=ax)
+            
+            # Dibujar puntos blancos en los pasos intermedios
+            nodos_intermedios = ruta[1:-1]
+            if nodos_intermedios:
+                nx.draw_networkx_nodes(G, pos, nodelist=nodos_intermedios, node_color='white', node_size=120, edgecolors='#002B5C', linewidths=1.5, ax=ax)
+            
+            # Dibujar los círculos grandes para el Origen y el Destino final
+            nx.draw_networkx_nodes(G, pos, nodelist=[origen], node_color='#002B5C', node_size=600, edgecolors='white', linewidths=2, ax=ax)
+            nx.draw_networkx_nodes(G, pos, nodelist=[destino_real], node_color='#D4A106', node_size=600, edgecolors='white', linewidths=2, ax=ax)
+
+            # Letreros de inicio y destino
+            pos_labels = {
+                origen: (pos[origen][0], pos[origen][1] - 0.25),
+                destino_real: (pos[destino_real][0], pos[destino_real][1] - 0.25)
             }
-        
-        # Dibujamos las etiquetas con el fondo azul de la UNAM
-        nx.draw_networkx_labels(G, pos_labels, labels=textos_nodos, 
-                                font_size=11, font_color='white', font_weight='bold', 
-                                bbox=dict(facecolor='#002B5C', edgecolor='none', alpha=0.8, pad=2, boxstyle="round,pad=0.3"), 
-                                ax=ax)
+            
+            if origen == destino_real:
+                textos_nodos = {origen: f"📍🎯 ¡Ya estás aquí!: {origen}"}
+            else:
+                textos_nodos = {
+                    origen: f"Inicio: {origen}",
+                    destino_real: f"Destino: {seleccion}"
+                   }
+            
+            nx.draw_networkx_labels(G, pos_labels, labels=textos_nodos, 
+                                   font_size=11, font_color='white', font_weight='bold', 
+                                   bbox=dict(facecolor='#002B5C', edgecolor='none', alpha=0.8, pad=2, boxstyle="round,pad=0.3"), 
+                                   ax=ax)
 
-       # Bloquear cámara al tamaño de la foto
-        ax.set_xlim([izq, der])
-        ax.set_ylim([abajo, arriba])
-        plt.axis('off') 
-        
-        st.pyplot(fig, clear_figure=True, use_container_width=True)
-        plt.close(fig)
-        
-    except Exception as e:
-        st.error(f"❌ Error al procesar: {e}")
+            # Bloquear cámara al tamaño de la foto
+            ax.set_xlim([izq, der])
+            ax.set_ylim([abajo, arriba])
+            plt.axis('off') 
+            
+            # Lanzar la imagen a la pantalla y limpiar memoria
+            st.pyplot(fig, clear_figure=True, use_container_width=True)
+            plt.close(fig)
+
+            caja_carga.empty()
+            
+        except nx.NetworkXNoPath:
+                st.error("❌ No se encontró una ruta válida entre estos dos puntos.")
+        except Exception as e:
+                st.error(f"❌ Error al procesar: {e}")
 
 else:
-    # MAPA INICIAL ESTÁTICO (OPTIMIZADO)
+    # MAPA INICIAL ESTÁTICO
     st.info("👆 Selecciona tu ubicación y destino arriba para trazar la ruta.")
     
     try:
