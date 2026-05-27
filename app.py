@@ -356,9 +356,9 @@ G = generar_grafo()
 st.markdown("<h3 style='text-align: center;'>🗺️ ¿Cómo usar el navegador?</h3>", unsafe_allow_html=True)
 st.markdown("""
 <div style='text-align: center; margin-bottom: 15px;'>
-1. 📍 <b>Estás en:</b> Selecciona tu ubicación actual.<br>
-2. 🎯 <b>Vas a:</b> Elige tu destino (área o docente).<br>
-3. Haz clic en <b>Trazar Ruta</b>.<br><br>
+1. 📍 <b>Estás en:</b> selecciona tu ubicación actual.<br>
+2. 🎯 <b>Vas a:</b> elige tu destino (área o docente).<br>
+3. Haz clic en <b>trazar ruta</b>.<br><br>
 </div>
 """, unsafe_allow_html=True)
 
@@ -369,8 +369,8 @@ with st.expander("¿Cómo funciona esta tecnología?"):
 st.markdown("<br>", unsafe_allow_html=True)
 
 # Separadores 
-sep_aulas = "🏢 --- ÁREAS Y AULAS ---"
-sep_docentes = "👨‍🏫 --- DOCENTES ---"
+sep_aulas = "🏢 ÁREAS Y AULAS "
+sep_docentes = "👨‍🏫 DOCENTES "
 
 # Listas pre-calculadas 
 nodos_ordenados = sorted(list(G.nodes()))
@@ -485,7 +485,10 @@ else:
 st.markdown("""
     <div class="footer">
         Hecho en México, Universidad Nacional Autónoma de México (UNAM).<br>
-        Desarrollado por estudiantes de la Licenciatura en Tecnología, ENES Juriquilla.<br>
+        Desarrollado por estudiantes de la Licenciatura en Tecnología de la ENES Juriquilla: <br>
+        Ávila Gónzález Jimena, Macías García Mayra, 
+        Pérez Rodríguez José Luis, Ramírez Conejo Christian Alexis
+
         © 2026 Todos los derechos reservados.
     </div>
     """, unsafe_allow_html=True)
