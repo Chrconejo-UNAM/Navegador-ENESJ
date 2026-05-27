@@ -487,8 +487,7 @@ st.markdown("""
         Hecho en México, Universidad Nacional Autónoma de México (UNAM).<br>
         Desarrollado por estudiantes de la Licenciatura en Tecnología de la ENES Juriquilla: <br>
         Ávila Gónzález Jimena, Macías García Mayra, 
-        Pérez Rodríguez José Luis, Ramírez Conejo Christian Alexis
-
+        Pérez Rodríguez José Luis, Ramírez Conejo Christian Alexis <br>
         © 2026 Todos los derechos reservados.
     </div>
     """, unsafe_allow_html=True)
